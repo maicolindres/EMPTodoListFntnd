@@ -1,0 +1,96 @@
+@page "/task/edit/{id:int}"
+@using Shared
+@inject HttpClient Http
+@inject NavigationManager Navigation
+<h3>Editar Tarea</h3>
+@if (_task == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <EditForm Model="@_task" OnValidSubmit="Put">
+        <div class="form-group">
+            <label>Nombre: </label>
+            <InputText @bind-Value="_task.Name" />
+        </div>
+        <div class="form-group">
+            <label>Descripción: </label>
+            <InputTextArea @bind-Value="_task.Description" />
+        </div>
+        <div class="form-group">
+            <label>Imagen: </label>
+            <InputText @bind-Value="_task.Image" />
+        </div>
+        <div class="form-group">
+            <label>Estado: </label>
+                <InputSelect @bind-Value="_task.StateId" >
+
+                    @if(_state != null)
+                    {
+                        @foreach (var stte in _state)
+                        {
+                            <option value="@stte.StateId">@stte.Name</option>
+                        }
+                    }
+                </InputSelect>
+        </div>
+        <div class="form-group">
+            <label>Categoria: </label>
+                <InputSelect @bind-Value="_task.CategoryId" >
+
+                    @if(_category != null)
+                    {
+                        @foreach (var cate in _category)
+                        {
+                            <option value="@cate.CategoryId">@cate.Name</option>
+                        }
+                    }
+                </InputSelect>
+        </div>
+        <div class="form-group">
+                <label>Fecha Vencimiento: </label>
+                <InputDate @bind-Value="_task.EndDate"/>
+
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" value="Actualizar Tarea" />
+        </div>
+    </EditForm>
+}
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    private Shared.Task _task = null;
+    private List<Shared.State> _state;
+    private List<Shared.Category> _category;
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        _task= await Http.GetFromJsonAsync<Shared.Task>($"/api/Task/{Id}");
+        _state = await Http.GetFromJsonAsync<List<Shared.State>>("/api/State");
+        _category = await Http.GetFromJsonAsync<List<Shared.Category>>("/api/Category");
+    }
+
+    private async System.Threading.Tasks.Task Put()
+    {
+        switch(_task.StateId)
+        {
+            case 1://Pendiente 
+                if(_task.EndDate.CompareTo(DateTime.Now)<0)
+                    _task.CategoryId = 4;//Rojo
+                else
+                    _task.CategoryId = 2;//Naranja
+                break;
+            case 2://En Proceso 
+                _task.CategoryId = 3;//Azul
+                break;
+            case 3://Realizada 
+                _task.CategoryId = 1;//Verde
+                break;
+        }
+
+        await Http.PutAsJsonAsync<Shared.Task>($"/api/Task/{_task.TaskId}", _task);
+        Navigation.NavigateTo($"/task/{_task.ListId}");
+    }
+}

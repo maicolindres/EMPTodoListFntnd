@@ -1,0 +1,56 @@
+@page "/list"
+@using Shared
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<h3>Listas</h3>
+@if (_lists == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <div>
+        <button class="btn btn-success" @onclick="CreateList">Agregar Lista</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var list in _lists)
+            {
+                <tr>
+                    <td>@list.Name</td>
+                    <td>
+                        <button class="btn btn-info"
+                                @onclick="(() => ViewTasks(list.ListId))">
+                            Ver Tareas
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    
+    private List<Shared.List> _lists;
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        _lists = await Http.GetFromJsonAsync<List<Shared.List>>("/api/List");
+    }
+
+    private void ViewTasks(int id)
+    {
+        Navigation.NavigateTo($"/task/{id}");
+    }
+    private void CreateList()
+    {
+        Navigation.NavigateTo("/list/create");
+        StateHasChanged();
+    }
+}

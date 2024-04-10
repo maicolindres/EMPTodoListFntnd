@@ -1,0 +1,71 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = EMPTodoListFntnd
+build_property.RootNamespace = EMPTodoListFntnd
+build_property.ProjectDir = /Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd
+build_property._RazorSourceGeneratorDebug = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/CreateList.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ3JlYXRlTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/CreateTask.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ3JlYXRlVGFzay5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/EditTask.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRWRpdFRhc2sucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/List.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTGlzdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/Tasks.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVGFza3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvV2VhdGhlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0L01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-48546g7zwc
+
+[/Users/colindresmichael/Developer/VSCode/EMPTodoListFntnd/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0L05hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-545if6idit

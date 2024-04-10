@@ -1,0 +1,152 @@
+@page "/task/{id:int}"
+@using Shared
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<h3>Lista de tareas</h3>
+@if (_tasktmp == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else
+{
+    <div>
+        <button class="btn btn-success" @onclick="CreateTask">Agregar Tarea</button>
+    </div>
+    <div class="form-group">
+        <label>Buscar: Descripcion </label>
+        <input type="text" @onchange="@(e => FilterRows(e, null, null))"/>
+        <label>Estatus </label>
+        <select @onchange="@(e => FilterRows(null, e, null))"> 
+            <option value="0">Selecione...</option>
+            <option value="1">Pendiente</option>
+            <option value="2">En Proceso</option>
+            <option value="3">Realizado</option>
+        </select>
+        <label>Fecha de Vencimiento </label>
+        <input type="date" @onchange="@(e => FilterRows(null, null,e))"/>
+
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th hidden>Task ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Imagen</th>
+                <th>Estado</th>
+                <th>Categoria</th>
+                <th>Fecha de Vencimiento</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+            @foreach (var task in _tasktmp)
+            {
+                    <tr style="@(task.StateId == 3 ? "background:green" : (task.StateId == 2 ? "background:blue" : (task.StateId == 1 ? (task.EndDate.CompareTo(DateTime.Now) < 0 ? "background:red" : "background:orange") : "background:")))">
+
+                    <td hidden>@task.TaskId</td>
+                    <td>@task.Name</td>
+                    <td>@task.Description</td>
+                    <td>@{<img src="@task.Image"width="100" height="100"/>}</td>
+                    <td>@{
+                        switch(@task.StateId)
+                        {
+                           case 1: <text>Pendiente</text> break;
+                           case 2: <text>En Proceso</text> break;
+                           case 3: <text>Realizado</text> break;
+                           default: <text>Estado no definido</text> break;
+
+                        }
+                        
+                        }</td>
+                    <td>@{
+                        switch(@task.CategoryId)
+                        {
+                           case 1: <text>Urgente</text> break;
+                           case 2: <text>No urgente</text> break;
+                           case 3: <text>Informativa</text> break;
+                           case 4: <text>Normal</text> break;
+                           default: <text>Sin categoria</text> break;
+                        }
+                        
+                        }</td>
+                    <td>@task.EndDate.ToString("dd'/'MM'/'yyyy")</td>
+                    <td>
+                        <button class="btn btn-info"
+                                @onclick="(() => EditTask(task.TaskId))">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger"
+                                @onclick="(() => DeleteTask(task.TaskId))">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    
+    [Parameter]
+    public int Id { get; set; }
+
+    public String desc { get; set; }= "";
+    public int est { get; set; }= 0;
+    public DateTime fv  { get; set; }
+    private List<Shared.Task> _task;
+    private List<Shared.Task> _tasktmp;
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        _task = await Http.GetFromJsonAsync<List<Shared.Task>>($"/api/Task/List/{Id}");
+        _tasktmp = _task;
+    }
+
+    private void FilterRows(ChangeEventArgs e1,ChangeEventArgs e2,ChangeEventArgs e3)
+    {
+        
+
+        if(_task!= null)
+        {
+        if(e1 != null)
+            desc = e1.Value.ToString();
+        if(e2 != null)
+            est = Int32.Parse(e2.Value.ToString());
+       else if(e3 != null)
+           fv = Convert.ToDateTime(e3.Value.ToString()==""?"01-01-0001":e3.Value.ToString());
+
+        //if(desc=="" && est==0 && fv == null)
+            _tasktmp=_task;
+
+
+        if(desc!="")
+            _tasktmp = _tasktmp.Where(task => task.Description.Contains(desc)).ToList();
+        if(est!=0)
+            _tasktmp = _tasktmp.Where(task => task.StateId == est).ToList();
+        if(fv!=null && "00010101" != fv.ToString("yyyyMMdd"))
+            _tasktmp = _tasktmp.Where(task => task.EndDate.ToString("yyyyMMdd") == fv.ToString("yyyyMMdd")).ToList();
+       // else
+       //    _tasktmp = _task.Where(task => (desc==""?false:task.Description.Contains(desc))&& (est==0?false:task.StateId == est)).ToList();
+        }
+        StateHasChanged();
+
+    }
+
+    private void EditTask(int id)
+    {
+        Navigation.NavigateTo($"/task/edit/{id}");
+    }
+    private async System.Threading.Tasks.Task DeleteTask(int id)
+    {
+        await Http.DeleteAsync($"/api/Task/{id}");
+        _task = await Http.GetFromJsonAsync<List<Shared.Task>>("/api/Task");
+        StateHasChanged();
+    }
+    private void CreateTask()
+    {
+        Navigation.NavigateTo($"/task/create/{Id}");
+        StateHasChanged();
+    }
+}
